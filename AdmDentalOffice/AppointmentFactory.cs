@@ -65,6 +65,10 @@ namespace AdmDentalOffice
                 throw new Exception(error);
             }
 
+            Appointment appointment = new Appointment(long.Parse(cpf), consultationDate, starTime, endTime);
+            
+            ListAppointment listAppointment = new ListAppointment();
+            listAppointment.addAppointment(appointment);
 
             return null;
         }

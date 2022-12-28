@@ -20,30 +20,30 @@ deve ser solicitado novamente.
 e. Não podem existir dois pacientes com o mesmo CPF.                                                                        ok
 f. O dentista não atende crianças, logo o paciente deve ter 13 anos ou mais no momento do
 cadastro (data atual).                                                                                                      ok
-2. Exclusão de pacientes do cadastro: é necessário fornecer o CPF.                                                          
-a. Um paciente com uma consulta agendada futura não pode ser excluído.                                                      
-b. Se o paciente tiver uma ou mais consultas agendadas passadas, ele pode ser excluído.                             
-Nesse caso, os respectivos agendamentos também devem ser excluídos.                                                         
+2. Exclusão de pacientes do cadastro: é necessário fornecer o CPF.                                                          ok
+a. Um paciente com uma consulta agendada futura não pode ser excluído.                                                      ok
+b. Se o paciente tiver uma ou mais consultas agendadas passadas, ele pode ser excluído.                                     
+Nesse caso, os respectivos agendamentos também devem ser excluídos.                                                         ok
 3. Agendamento de uma consulta: são necessários CPF do paciente, data da consulta, hora
 inicial e hora final.                                                                                                       ok
 a. CPF deve existir no cadastro.                                                                                            ok
 b. A data da consulta deve ser fornecida no formato DD/MM/AAAA.
 c. Hora inicial e final devem ser fornecidos no formato HHMM (padrão brasileiro).
 d. O agendamento deve ser para um período futuro: data da consulta > data atual ou (data da
-consulta = data atual e hora inicial > hora atual).
-e. Hora final > hora inicial.
+consulta = data atual e hora inicial > hora atual).                                                                         ok
+e. Hora final > hora inicial.                                                                                               ok
 f. Cada paciente só pode realizar um agendamento futuro por vez (os agendamentos
-passados não podem ser usados nessa verificação).
-g. Não pode haver agendamentos sobrepostos.
+passados não podem ser usados nessa verificação).                                                                           ok
+g. Não pode haver agendamentos sobrepostos.                                                                                 ok
 
 1
 
 Formação Back-end Desafio #1
 h. As horas inicial e final são definidas sempre de 15 em 15 minutos. Assim, são válidas
 horas como 1400, 1730, 1615, 1000 e 0715. Por outro lado, não são válidas horas como
-1820, 1235, 0810 e 1950.
+1820, 1235, 0810 e 1950.                                                                                                    ok
 i. O horário de funcionamento do consultório é das 8:00h às 19:00h, logo os horários de
-agendamento não podem sair desses limites.
+agendamento não podem sair desses limites.                                                                                  ok
 4. Cancelamento de um agendamento: são necessários CPF do paciente, data da consulta e
 hora inicial.
 a. O cancelamento só pode ser realizado se for de um agendamento futuro (data do
@@ -52,9 +52,9 @@ atual)).
 5. Listagem dos Pacientes
 a. A listagem de pacientes deve ser apresentada conforme o layout definido no final desse
 documento e pode estar ordenada de forma crescente por CPF ou nome, à escolha do
-usuário.
+usuário.                                                                                                                    falta fazer layout
 b. Se o paciente possuir um agendamento futuro, os dados do agendamento devem ser
-apresentados abaixo dos dados do paciente.
+apresentados abaixo dos dados do paciente.                                                                                  ok (a função ja tem os dados)
 6. Listagem da Agenda
 a. A listagem da agenda deve ser apresentada conforme o layout definido no final desse
 documento e deve estar ordenada de forma crescente por data e hora inicial.
