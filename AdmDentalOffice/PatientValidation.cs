@@ -16,7 +16,7 @@ namespace AdmDentalOffice
         
         public PatientValidation() { }
 
-        private string nameValidation(string name)
+        public string nameValidation(string name)
         {
             if (name.Length < 5 || !new Regex(@"[a-zA-Z]").IsMatch(name))
             {
@@ -25,7 +25,7 @@ namespace AdmDentalOffice
             return null;
         }
 
-        private string cpfValidation(string cpf)
+        public string cpfValidation(string cpf)
         {
 
             if (cpf.Length != 11 && !new Regex(@"[0-9]").IsMatch(cpf))
@@ -101,7 +101,7 @@ namespace AdmDentalOffice
             return null;
         }
 
-        private string birthDateValidation(string birthDate)
+        public string birthDateValidation(string birthDate)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             if (birthDate.Length == 10)

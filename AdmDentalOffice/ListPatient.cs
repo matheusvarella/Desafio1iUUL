@@ -17,6 +17,10 @@ namespace AdmDentalOffice
 
         public void addPatient(Patient patient)
         {
+            if (existPatient(patient.Cpf))
+            {
+                throw new Exception("CPF de paciente ja cadastrado");
+            }
             patients.Add(patient);
         }
 
@@ -24,7 +28,7 @@ namespace AdmDentalOffice
         {
             patients.Remove(patient);
         }
-
+        
         public List<Patient> getAllPatients()
         {
             return patients;
@@ -54,6 +58,18 @@ namespace AdmDentalOffice
             Dictionary<Patient, Appointment> listPatients = (Dictionary<Patient, Appointment>)listPatientAndAppointment().OrderBy(patient => patient.Key.Cpf);
 
             return listPatients;
+        }
+
+        public bool existPatient(long cpf)
+        {
+            foreach (Patient patient in patients) 
+            {
+                if (patient.Cpf.Equals(cpf))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

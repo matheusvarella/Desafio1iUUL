@@ -8,5 +8,17 @@ namespace AdmDentalOffice
 {
     public class Print
     {
+
+        public void imprimirInicio()
+        {
+            try
+            {
+                //tela do comeco
+            }catch(Exception e) 
+            {
+                Console.WriteLine(e);
+                imprimirInicio();
+            }
+        }
     }
 }
