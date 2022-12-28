@@ -28,7 +28,7 @@ namespace AdmDentalOffice
         {
             patients.Remove(patient);
         }
-
+        
         public List<Patient> getAllPatients()
         {
             return patients;
