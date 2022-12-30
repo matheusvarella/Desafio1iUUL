@@ -24,9 +24,31 @@ namespace AdmDentalOffice
             patients.Add(patient);
         }
 
-        public void removePatient(Patient patient)
+        public void removePatient(long cpf)
         {
-            patients.Remove(patient);
+            if (existPatient(cpf))
+            {
+                foreach (Patient patient in patients)
+                {
+                    if (patient.Cpf == cpf)
+                    {
+                        if (!new ListAppointment().futureAppointment(patient.Cpf))
+                        {
+                            new ListAppointment().removeAllAppointments(patient.Cpf);
+                            patients.Remove(patient);
+                            break;
+                        }
+                        else
+                        {
+                            throw new Exception("Esse paciente possui consultas futuras por isso não pode ser excluido");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("CPF de paciente não encontrado");
+            }
         }
         
         public List<Patient> getAllPatients()
@@ -41,7 +63,22 @@ namespace AdmDentalOffice
             patients.ForEach(patient =>
             {
                 Appointment appointment = new ListAppointment().findAppointmentForCpf(patient.Cpf);
-                patientAndAppointment.Add(patient, appointment);
+
+                DateTime dateNow = DateTime.Now;
+                int day = int.Parse(appointment.ConsultationDate.Substring(0, 2));
+                int month = int.Parse(appointment.ConsultationDate.Substring(3, 2));
+                int year = int.Parse(appointment.ConsultationDate.Substring(6, 4));
+                DateTime dateAppointment = new DateTime(year, month,day);
+                dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + (int.Parse(appointment.StartTime.Substring(2, 2)) * 60));
+
+                if (dateAppointment > dateNow)
+                {
+                    patientAndAppointment.Add(patient, appointment);
+                }
+                else
+                {
+                    patientAndAppointment.Add(patient, null);
+                }
             });
             return patientAndAppointment;
         }
