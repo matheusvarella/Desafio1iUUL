@@ -12,13 +12,13 @@ namespace AdmDentalOffice
     {
         public AppointmentFactory() { }
 
-        public Appointment createAppointment(string cpf, string consultationDate, string starTime, string endTime)
+        public Appointment createAppointment(string cpf, string dateAppointment, string starTime, string endTime)
         {
 
             AppointmentValidation appointmentValidation = new AppointmentValidation();
 
             string errorCpf = appointmentValidation.cpfValidation(cpf);
-            string errorConsultationDate = appointmentValidation.consultationDateValidation(consultationDate);
+            string errorDateAppointment = appointmentValidation.dateAppointmentValidation(dateAppointment);
             string errorStarTime = appointmentValidation.starTimeValidation(starTime);
             string errorEndTime = appointmentValidation.endTimeValidation(endTime);
             string error = null;
@@ -26,15 +26,15 @@ namespace AdmDentalOffice
             {
                 error = errorCpf;
             }
-            if (errorConsultationDate != null)
+            if (errorDateAppointment != null)
             {
                 if (error == null)
                 {
-                    error = errorConsultationDate;
+                    error = errorDateAppointment;
                 }
                 else
                 {
-                    error += ", \n" + errorConsultationDate;
+                    error += ", \n" + errorDateAppointment;
                 }
             }
             if (errorStarTime != null)
@@ -65,7 +65,7 @@ namespace AdmDentalOffice
                 throw new Exception(error);
             }
 
-            Appointment appointment = new Appointment(long.Parse(cpf), consultationDate, starTime, endTime);
+            Appointment appointment = new Appointment(long.Parse(cpf), errorDateAppointment, starTime, endTime);
             
             ListAppointment listAppointment = new ListAppointment();
             listAppointment.addAppointment(appointment);

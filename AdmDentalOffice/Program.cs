@@ -45,10 +45,10 @@ horas como 1400, 1730, 1615, 1000 e 0715. Por outro lado, não são válidas hor
 i. O horário de funcionamento do consultório é das 8:00h às 19:00h, logo os horários de
 agendamento não podem sair desses limites.                                                                                  ok
 4. Cancelamento de um agendamento: são necessários CPF do paciente, data da consulta e
-hora inicial.
+hora inicial.                                                                                                               ok
 a. O cancelamento só pode ser realizado se for de um agendamento futuro (data do
 agendamento > data atual ou (data do agendamento = data atual e hora inicial > hora
-atual)).
+atual)).                                                                                                                    ok
 5. Listagem dos Pacientes
 a. A listagem de pacientes deve ser apresentada conforme o layout definido no final desse
 documento e pode estar ordenada de forma crescente por CPF ou nome, à escolha do

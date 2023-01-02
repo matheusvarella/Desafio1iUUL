@@ -65,9 +65,9 @@ namespace AdmDentalOffice
                 Appointment appointment = new ListAppointment().findAppointmentForCpf(patient.Cpf);
 
                 DateTime dateNow = DateTime.Now;
-                int day = int.Parse(appointment.ConsultationDate.Substring(0, 2));
-                int month = int.Parse(appointment.ConsultationDate.Substring(3, 2));
-                int year = int.Parse(appointment.ConsultationDate.Substring(6, 4));
+                int day = int.Parse(appointment.DateAppointment.Substring(0, 2));
+                int month = int.Parse(appointment.DateAppointment.Substring(3, 2));
+                int year = int.Parse(appointment.DateAppointment.Substring(6, 4));
                 DateTime dateAppointment = new DateTime(year, month,day);
                 dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + (int.Parse(appointment.StartTime.Substring(2, 2)) * 60));
 

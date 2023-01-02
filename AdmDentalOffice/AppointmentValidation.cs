@@ -11,7 +11,7 @@ namespace AdmDentalOffice
     public class AppointmentValidation
     {
         private DateTime dateTimeNow = DateTime.Now;
-        private DateTime consultatioDateDateTime;
+        private DateTime dateAppointmentDateTime;
         private int startTimeInt;
         private int endTimeInt;
         public AppointmentValidation() 
@@ -35,21 +35,21 @@ namespace AdmDentalOffice
             }
             return error;
         }
-        public string consultationDateValidation(string consultationDate)
+        public string dateAppointmentValidation(string dateAppointment)
         {
             try
             {
-                int day = int.Parse(consultationDate.Substring(0, 2));
-                int month = int.Parse(consultationDate.Substring(3, 2));
-                int year = int.Parse(consultationDate.Substring(6, 4));
-                consultatioDateDateTime = new DateTime(year, month, day);
+                int day = int.Parse(dateAppointment.Substring(0, 2));
+                int month = int.Parse(dateAppointment.Substring(3, 2));
+                int year = int.Parse(dateAppointment.Substring(6, 4));
+                dateAppointmentDateTime = new DateTime(year, month, day);
             }
             catch
             {
                 return "Formato de data inválido";
             }
 
-            if (dateTimeNow > consultatioDateDateTime)
+            if (dateTimeNow > dateAppointmentDateTime)
             {
                 return "Data da consulta não pode ser anterior a data atual";
             }
@@ -71,9 +71,9 @@ namespace AdmDentalOffice
 
             double seconds = transformToSeconds(starTime);
 
-            consultatioDateDateTime.AddSeconds(seconds);
+            dateAppointmentDateTime.AddSeconds(seconds);
 
-            if (dateTimeNow > consultatioDateDateTime)
+            if (dateTimeNow > dateAppointmentDateTime)
             {
                 return "Data da consulta não pode ser anterior a data atual";
             }

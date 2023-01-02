@@ -10,16 +10,16 @@ namespace AdmDentalOffice
     {
         public long Cpf { get; set; }
 
-        public string ConsultationDate { get; set; }
+        public string DateAppointment { get; set; }
 
         public string StartTime { get; set; }
 
         public string EndTime { get; set; }
 
-        public Appointment(long cpf, string consultationDate, string starTime, string endTime) 
+        public Appointment(long cpf, string dateAppointment, string starTime, string endTime) 
         {
             Cpf = cpf;
-            ConsultationDate = consultationDate;
+            DateAppointment = dateAppointment;
             StartTime = starTime;
             EndTime = endTime;
         }

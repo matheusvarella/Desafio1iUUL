@@ -29,9 +29,32 @@ namespace AdmDentalOffice
             appointments.Add(appointment);
         }
 
-        public void removeAppointment(Appointment appointment)
+        public void removeAppointment(long cpf, string dateAppointment, string startTime)
         {
-            appointments.Remove(appointment);
+            try
+            {
+                DateTime dateNow = DateTime.Now;
+
+                Appointment appointment = findAppointment(cpf, dateAppointment, startTime);
+
+                int day = int.Parse(appointment.DateAppointment.Substring(0, 2));
+                int month = int.Parse(appointment.DateAppointment.Substring(3, 2));
+                int year = int.Parse(appointment.DateAppointment.Substring(6, 4));
+                DateTime date = new DateTime(year, month, day);
+                date.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + (int.Parse(appointment.StartTime.Substring(2, 2)) * 60));
+
+                if (date > dateNow)
+                {
+                    appointments.Remove(appointment);
+                }
+                else
+                {
+                    throw new Exception("A consulta só pode ser cancelada se estiver marcada para depois da data atual");
+                }
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void removeAllAppointments(long cpf)
@@ -43,6 +66,18 @@ namespace AdmDentalOffice
                     appointments.Remove(appointment);
                 }
             }
+        }
+
+        public Appointment findAppointment(long cpf, string dateAppointment, string startTime)
+        {
+            foreach (Appointment appointment in appointments)
+            {
+                if (appointment.Cpf == cpf && appointment.DateAppointment == dateAppointment && appointment.StartTime == startTime)
+                {
+                    return appointment;
+                }
+            }
+            throw new Exception("Consulta não encontrada");
         }
 
         public Appointment findAppointmentForCpf(long cpf)
@@ -64,9 +99,9 @@ namespace AdmDentalOffice
             {
                 if (appointment.Cpf == cpf)
                 {   
-                    int day = int.Parse(appointment.ConsultationDate.Substring(0, 2));
-                    int month = int.Parse(appointment.ConsultationDate.Substring(3, 2));
-                    int year = int.Parse(appointment.ConsultationDate.Substring(6, 4));
+                    int day = int.Parse(appointment.DateAppointment.Substring(0, 2));
+                    int month = int.Parse(appointment.DateAppointment.Substring(3, 2));
+                    int year = int.Parse(appointment.DateAppointment.Substring(6, 4));
                     DateTime dateAppointment = new DateTime(year, month, day);
                     dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + (int.Parse(appointment.StartTime.Substring(2, 2)) * 60));
 
@@ -84,7 +119,7 @@ namespace AdmDentalOffice
         {
             foreach (Appointment appointmentInList in appointments)
             {
-                if (appointmentInList.ConsultationDate == appointment.ConsultationDate)
+                if (appointmentInList.DateAppointment == appointment.DateAppointment)
                 {
                     int startTimeIntAppointmentInList = int.Parse(appointmentInList.StartTime);
                     int endTimeIntAppointmentInList = int.Parse(appointmentInList.EndTime);
