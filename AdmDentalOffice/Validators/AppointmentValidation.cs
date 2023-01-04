@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading;
+using AdmDentalOffice.Controllers;
 
-namespace AdmDentalOffice
+namespace AdmDentalOffice.Validators
 {
     public class AppointmentValidation
     {
@@ -10,24 +11,24 @@ namespace AdmDentalOffice
         private DateTime consultatioDateDateTime;
         private int startTimeInt;
         private int endTimeInt;
-        public AppointmentValidation() 
+        public AppointmentValidation()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
         }
-        public string cpfValidation(string cpf)
+        public string CpfValidation(string cpf)
         {
-            string error = PatientValidation.cpfValidation(cpf);
+            string error = PatientValidation.CpfValidation(cpf);
 
             if (error == null)
             {
-                if (!ListPatient.existPatient(long.Parse(cpf)))
+                if (!ListPatient.ExistPatient(long.Parse(cpf)))
                 {
                     error = "CPF não cadastrado como paciente";
                 }
             }
             return error;
         }
-        public string consultationDateValidation(string consultationDate)
+        public string ConsultationDateValidation(string consultationDate)
         {
             try
             {
@@ -48,10 +49,10 @@ namespace AdmDentalOffice
 
             return null;
         }
-        public string starTimeValidation(string starTime)
+        public string StarTimeValidation(string starTime)
         {
             startTimeInt = int.Parse(starTime);
-            if(startTimeInt%15 != 0)
+            if (startTimeInt % 15 != 0)
             {
                 return "Formato de hora inicial inválido";
             }
@@ -61,7 +62,7 @@ namespace AdmDentalOffice
                 return "Horário de atendimento é somente das 08:00 até as 19:00";
             }
 
-            double seconds = transformToSeconds(starTime);
+            double seconds = TransformToSeconds(starTime);
 
             consultatioDateDateTime.AddSeconds(seconds);
 
@@ -72,7 +73,7 @@ namespace AdmDentalOffice
 
             return null;
         }
-        public string endTimeValidation(string endTime)
+        public string EndTimeValidation(string endTime)
         {
             endTimeInt = int.Parse(endTime);
             if (endTimeInt % 15 != 0)
@@ -87,16 +88,16 @@ namespace AdmDentalOffice
 
             int timeOfAppointment = endTimeInt - startTimeInt;
 
-            if (timeOfAppointment < 15 || timeOfAppointment%15 != 0)
+            if (timeOfAppointment < 15 || timeOfAppointment % 15 != 0)
             {
                 return "Horário da consulta inválido. É necessário ao menos 15 minutos para a consulta e ela só deve ser agendada a cada 15 minutos";
             }
             return null;
         }
 
-        private double transformToSeconds(string value)
+        private double TransformToSeconds(string value)
         {
-            return (double) (int.Parse(value.Substring(0, 2)) * 60 * 60) + (int.Parse(value.Substring(2,2)) * 60);
+            return (double)(int.Parse(value.Substring(0, 2)) * 60 * 60) + int.Parse(value.Substring(2, 2)) * 60;
         }
 
     }

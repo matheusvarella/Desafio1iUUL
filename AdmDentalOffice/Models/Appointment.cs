@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdmDentalOffice
+namespace AdmDentalOffice.Models
 {
     public class Appointment
     {
@@ -16,7 +16,7 @@ namespace AdmDentalOffice
 
         public string EndTime { get; set; }
 
-        public Appointment(long cpf, string consultationDate, string starTime, string endTime) 
+        public Appointment(long cpf, string consultationDate, string starTime, string endTime)
         {
             Cpf = cpf;
             ConsultationDate = consultationDate;

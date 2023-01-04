@@ -1,4 +1,7 @@
-﻿using AdmDentalOffice.LayoutControllers.Layouts;
+﻿using AdmDentalOffice.Controllers;
+using AdmDentalOffice.LayoutControllers.Layouts;
+using AdmDentalOffice.Models;
+using AdmDentalOffice.Validators;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,11 +11,6 @@ namespace AdmDentalOffice.LayoutControllers
 {
     public static class PrintAgenda
     {
-        private static string baseListAgenda =
-            "-------------------------------------------------------------\r\n" +
-            "Data H.Ini H.Fim Tempo Nome Dt.Nasc.\r\n" +
-            "-------------------------------------------------------------";
-
         public static void Agenda()
         {
             int option;
@@ -30,16 +28,24 @@ namespace AdmDentalOffice.LayoutControllers
                 switch (option)
                 {
                     case 1:
+                        Console.Clear();
                         RegisterConsult();
+                        Console.WriteLine();
                         break;
                     case 2:
+                        Console.Clear();
                         DeleteConsult();
+                        Console.WriteLine();
                         break;
                     case 3:
+                        Console.Clear();
                         ListAgenda();
+                        Console.WriteLine();
                         break;
                     case 4:
+                        Console.Clear();
                         Print.PrintStart();
+                        Console.WriteLine();
                         break;
                     default:
                         Console.WriteLine("Opção informada inválida! Informe novamente!");
@@ -60,7 +66,7 @@ namespace AdmDentalOffice.LayoutControllers
                     Console.Write("CPF: ");
                     var cpf = long.Parse(Console.ReadLine());
                     
-                    var erro = PatientValidation.cpfValidation(cpf.ToString());
+                    var erro = PatientValidation.CpfValidation(cpf.ToString());
                     if (erro != null)
                         erros.Add(erro);
 
@@ -77,7 +83,7 @@ namespace AdmDentalOffice.LayoutControllers
 
                         var appointment = new Appointment(cpf, consultDate, intialHour, finalHour);
                         
-                        erro = ListAppointment.addAppointment(appointment);
+                        erro = ListAppointment.AddAppointment(appointment);
                         if (erro != null)
                             erros.Add(erro);
                         
@@ -105,7 +111,53 @@ namespace AdmDentalOffice.LayoutControllers
 
         public static void DeleteConsult()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
+            var erros = new List<string>();
+            try
+            {
+                do
+                {
+                    Console.Write("CPF: ");
+                    var cpf = long.Parse(Console.ReadLine());
 
+                    var erro = PatientValidation.CpfValidation(cpf.ToString());
+                    if (erro != null)
+                        erros.Add(erro);
+
+                    if (erros.Count == 0)
+                    {
+                        Console.Write("Data da consulta: ");
+                        var consultDate = Console.ReadLine();
+
+                        Console.Write("Hora inicial: ");
+                        var intialHour = Console.ReadLine();
+
+                        var appointment = ListAppointment.GetAppointment(cpf);
+
+                        erro = ListAppointment.RemoveAppointment(appointment);
+                        if (erro != null)
+                            erros.Add(erro);
+
+                        if (erros.Count > 0)
+                        {
+                            PrintErro.PrintErros(erros);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\r\nAgendamento realizado com sucesso!");
+                        }
+                    }
+                    else
+                    {
+                        PrintErro.PrintErros(erros);
+                    }
+                } while (erros.Count > 0);
+            }
+            catch (Exception ex)
+            {
+                erros.Add(ex.ToString());
+                PrintErro.PrintErros(erros);
+            }
         }
 
         public static void ListAgenda()
@@ -121,44 +173,34 @@ namespace AdmDentalOffice.LayoutControllers
 
                     if (option == "P")
                     {
+                        var validator = new AppointmentValidation();
+
                         Console.Write("Data inicial: ");
                         var initialDate = Console.ReadLine();
 
                         Console.Write("Data final: ");
                         var finalDate = Console.ReadLine();
 
+                        var erro = validator.StarTimeValidation(initialDate);
+                        if (erro != null)
+                            erros.Add(erro);
+                        
+                        erro = validator.EndTimeValidation(finalDate);
+                        if (erro != null)
+                            erros.Add(erro);
+                        
+                        if (erros.Count > 0)
+                        {
+                            var list = ListAppointment.ListAppointmentsByPeriod(initialDate, finalDate);
 
-                        // Console.WriteLine(baseListAgenda);
-                        var list = ListAppointment.ListAppointmentsByPeriod(initialDate, finalDate);
-
-                        ListAgendaFormatted.PrintListAgenda(list);
-
-                        //foreach (var item in list)
-                        //{
-                        //    Console.WriteLine(
-                        //        item.Key.ConsultationDate + " " +
-                        //        item.Key.StartTime + " " +
-                        //        item.Key.EndTime + " " +
-                        //        item.Value.Name + " " +
-                        //        item.Value.BirthDate);
-                        //}
+                            ListAgendaFormatted.PrintListAgenda(list);
+                        }
                     } 
                     else if (option == "T") 
                     {
-                        Console.WriteLine(baseListAgenda);
                         var list = ListAppointment.ListAllAppointments();
 
                         ListAgendaFormatted.PrintListAgenda(list);
-
-                        //foreach (var item in list)
-                        //{
-                        //    Console.WriteLine(
-                        //        item.Key.ConsultationDate + " " + 
-                        //        item.Key.StartTime + " " +
-                        //        item.Key.EndTime + " " +
-                        //        item.Value.Name + " " +
-                        //        item.Value.BirthDate);
-                        //}
                     } 
                     else
                     {

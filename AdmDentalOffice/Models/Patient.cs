@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Globalization;
-using System.Threading;
 
-namespace AdmDentalOffice
+namespace AdmDentalOffice.Models
 {
     public class Patient
     {
@@ -14,8 +12,6 @@ namespace AdmDentalOffice
 
         public Patient(string name, long cpf, DateTime birthDate)
         {
-            //Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
-            
             Name = name;
             Cpf = cpf;
             BirthDate = birthDate;

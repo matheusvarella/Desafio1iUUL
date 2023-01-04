@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AdmDentalOffice.Controllers;
+using AdmDentalOffice.LayoutControllers.Layouts;
+using AdmDentalOffice.Models;
+using AdmDentalOffice.Validators;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
@@ -25,19 +29,28 @@ namespace AdmDentalOffice.LayoutControllers
                 switch (option)
                 {
                     case 1:
+                        Console.Clear();
                         RegisterPatient();
+                        Console.WriteLine();
                         break;
                     case 2:
+                        Console.Clear();
                         DeletePatient();
+                        Console.WriteLine();
                         break;
                     case 3:
+                        Console.Clear();
                         PatientByCPF();
+                        Console.WriteLine();
                         break;
                     case 4:
-                        
+                        Console.Clear();
+                        PatientByName();
+                        Console.WriteLine();
                         break;
                     case 5:
-                        
+                        Console.Clear();
+                        Print.PrintStart();
                         break;
                     default:
                         Console.WriteLine("Opção informada inválida! Informe novamente!");
@@ -63,15 +76,15 @@ namespace AdmDentalOffice.LayoutControllers
                     Console.Write("Data de nascimento: ");
                     var birthDate = Console.ReadLine();
 
-                    var erro = PatientValidation.cpfValidation(cpf.ToString());
+                    var erro = PatientValidation.CpfValidation(cpf.ToString());
                     if (erro != null)
                         erros.Add(erro);
 
-                    erro = PatientValidation.nameValidation(name);
+                    erro = PatientValidation.NameValidation(name);
                     if (erro != null)
                         erros.Add(erro);
 
-                    erro = PatientValidation.birthDateValidation(birthDate);
+                    erro = PatientValidation.BirthDateValidation(birthDate);
                     if (erro != null)
                         erros.Add(erro);
 
@@ -83,7 +96,7 @@ namespace AdmDentalOffice.LayoutControllers
                     {
                         var patient = new Patient(name, cpf, DateTime.Parse(birthDate));
 
-                        erro = ListPatient.addPatient(patient);
+                        erro = ListPatient.AddPatient(patient);
                         if (erro != null)
                             erros.Add(erro);
 
@@ -95,7 +108,6 @@ namespace AdmDentalOffice.LayoutControllers
                         {
                             Console.WriteLine("\r\nCadastrado com sucesso!");
                         }
-                        Console.Clear();
                     }
                 } while (erros.Count > 0);
             }
@@ -115,7 +127,7 @@ namespace AdmDentalOffice.LayoutControllers
                 Console.Write("CPF: ");
                 var cpf = Console.ReadLine();
 
-                var erro = PatientValidation.cpfValidation(cpf);
+                var erro = PatientValidation.CpfValidation(cpf);
                 if (erro != null)
                     erros.Add(erro);
 
@@ -125,7 +137,7 @@ namespace AdmDentalOffice.LayoutControllers
                 }
                 else
                 {
-                    erro = ListPatient.removePatient(long.Parse(cpf));
+                    erro = ListPatient.RemovePatient(long.Parse(cpf));
                     if (erro != null)
                         erros.Add(erro);
 
@@ -144,32 +156,16 @@ namespace AdmDentalOffice.LayoutControllers
 
         public static void PatientByCPF()
         {
-            var patients = ListPatient.listPatientsByCpf();
-            
-            foreach (var patient in patients)
-            {
-                Console.WriteLine(
-                                patient.Key.Cpf + " " +
-                                patient.Key.Name + " " +
-                                patient.Key.BirthDate + " " +
-                                patient.Value.ConsultationDate + " " +
-                                patient.Value.StartTime);
-            }
+            var patients = ListPatient.ListPatientsByCpf();
+
+            ListPatientFormatted.PrintListPatient(patients);
         }
 
         public static void PatientByName()
         {
-            var patients = ListPatient.listPatientsByName();
+            var patients = ListPatient.ListPatientsByName();
 
-            foreach (var patient in patients)
-            {
-                Console.WriteLine(
-                                patient.Key.Cpf + " " +
-                                patient.Key.Name + " " +
-                                patient.Key.BirthDate + " " +
-                                patient.Value.ConsultationDate + " " +
-                                patient.Value.StartTime);
-            }
+            ListPatientFormatted.PrintListPatient(patients);
         }
     }
 }

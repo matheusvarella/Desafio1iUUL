@@ -1,16 +1,17 @@
-﻿using System;
+﻿using AdmDentalOffice.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AdmDentalOffice
+namespace AdmDentalOffice.Controllers
 {
     public static class ListPatient
     {
         private static List<Patient> patients = new List<Patient>();
 
-        public static string addPatient(Patient patient)
+        public static string AddPatient(Patient patient)
         {
-            if (existPatient(patient.Cpf))
+            if (ExistPatient(patient.Cpf))
             {
                 return "CPF de paciente ja cadastrado";
             }
@@ -19,17 +20,17 @@ namespace AdmDentalOffice
             return null;
         }
 
-        public static string removePatient(long cpf)
+        public static string RemovePatient(long cpf)
         {
-            if (existPatient(cpf))
+            if (ExistPatient(cpf))
             {
                 foreach (Patient patient in patients)
                 {
                     if (patient.Cpf == cpf)
                     {
-                        if (!ListAppointment.futureAppointment(patient.Cpf))
+                        if (!ListAppointment.FutureAppointment(patient.Cpf))
                         {
-                            ListAppointment.removeAllAppointments(patient.Cpf);
+                            ListAppointment.RemoveAllAppointments(patient.Cpf);
                             patients.Remove(patient);
                             break;
                         }
@@ -44,29 +45,29 @@ namespace AdmDentalOffice
             }
             else
             {
-                 return "CPF de paciente não encontrado";
+                return "CPF de paciente não encontrado";
             }
         }
-        
-        public static List<Patient> getAllPatients()
+
+        public static List<Patient> GetAllPatients()
         {
             return patients;
         }
 
-        private static Dictionary<Patient, Appointment> listPatientAndAppointment()
+        private static Dictionary<Patient, Appointment> ListPatientAndAppointment()
         {
             Dictionary<Patient, Appointment> patientAndAppointment = new Dictionary<Patient, Appointment>();
 
             patients.ForEach(patient =>
             {
-                Appointment appointment = ListAppointment.findAppointmentForCpf(patient.Cpf);
+                Appointment appointment = ListAppointment.FindAppointmentForCpf(patient.Cpf);
 
                 DateTime dateNow = DateTime.Now;
                 int day = int.Parse(appointment.ConsultationDate.Substring(0, 2));
                 int month = int.Parse(appointment.ConsultationDate.Substring(3, 2));
                 int year = int.Parse(appointment.ConsultationDate.Substring(6, 4));
-                DateTime dateAppointment = new DateTime(year, month,day);
-                dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + (int.Parse(appointment.StartTime.Substring(2, 2)) * 60));
+                DateTime dateAppointment = new DateTime(year, month, day);
+                dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + int.Parse(appointment.StartTime.Substring(2, 2)) * 60);
 
                 if (dateAppointment > dateNow)
                 {
@@ -79,7 +80,7 @@ namespace AdmDentalOffice
             });
             return patientAndAppointment;
         }
-        public static Dictionary<Patient, Appointment> listPatientsByName()
+        public static Dictionary<Patient, Appointment> ListPatientsByName()
         {
             var listPatients = patients.OrderBy(x => x.Name).ToList();
 
@@ -95,7 +96,7 @@ namespace AdmDentalOffice
             return result;
         }
 
-        public static Dictionary<Patient, Appointment> listPatientsByCpf()
+        public static Dictionary<Patient, Appointment> ListPatientsByCpf()
         {
             var listPatients = patients.OrderBy(x => x.Cpf).ToList();
 
@@ -111,9 +112,9 @@ namespace AdmDentalOffice
             return result;
         }
 
-        public static bool existPatient(long cpf)
+        public static bool ExistPatient(long cpf)
         {
-            foreach (Patient patient in patients) 
+            foreach (Patient patient in patients)
             {
                 if (patient.Cpf.Equals(cpf))
                 {

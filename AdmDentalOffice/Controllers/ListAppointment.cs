@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdmDentalOffice.Models;
 
-namespace AdmDentalOffice
+namespace AdmDentalOffice.Controllers
 {
     public static class ListAppointment
     {
         private static List<Appointment> appointments = new List<Appointment>();
 
-        public static string addAppointment(Appointment appointment)
+        public static string AddAppointment(Appointment appointment)
         {
-            if (futureAppointment(appointment.Cpf))
+            if (FutureAppointment(appointment.Cpf))
             {
                 return "Paciente já possui consulta agendada";
             }
 
-            if (haveAppointmentInThisTime(appointment))
+            if (HaveAppointmentInThisTime(appointment))
             {
                 return "Já existe consulta agendada nesse horário";
             }
@@ -24,12 +25,20 @@ namespace AdmDentalOffice
             return null;
         }
 
-        public static void removeAppointment(Appointment appointment)
+        public static string RemoveAppointment(Appointment appointment)
         {
-            appointments.Remove(appointment);
+            try 
+            {
+                appointments.Remove(appointment);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Agendamento não encontrado";
+            }
         }
 
-        public static void removeAllAppointments(long cpf)
+        public static void RemoveAllAppointments(long cpf)
         {
             foreach (Appointment appointment in appointments)
             {
@@ -40,7 +49,7 @@ namespace AdmDentalOffice
             }
         }
 
-        public static Appointment findAppointmentForCpf(long cpf)
+        public static Appointment FindAppointmentForCpf(long cpf)
         {
             foreach (Appointment appointment in appointments)
             {
@@ -52,18 +61,18 @@ namespace AdmDentalOffice
             throw new Exception("CPF não cadastrado na lista de consultas");
         }
 
-        public static bool futureAppointment(long cpf)
+        public static bool FutureAppointment(long cpf)
         {
             DateTime dateNow = DateTime.Now;
             foreach (Appointment appointment in appointments)
             {
                 if (appointment.Cpf == cpf)
-                {   
+                {
                     int day = int.Parse(appointment.ConsultationDate.Substring(0, 2));
                     int month = int.Parse(appointment.ConsultationDate.Substring(3, 2));
                     int year = int.Parse(appointment.ConsultationDate.Substring(6, 4));
                     DateTime dateAppointment = new DateTime(year, month, day);
-                    dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + (int.Parse(appointment.StartTime.Substring(2, 2)) * 60));
+                    dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + int.Parse(appointment.StartTime.Substring(2, 2)) * 60);
 
                     if (dateAppointment > dateNow)
                     {
@@ -75,7 +84,7 @@ namespace AdmDentalOffice
             return false;
         }
 
-        public static bool haveAppointmentInThisTime(Appointment appointment)
+        public static bool HaveAppointmentInThisTime(Appointment appointment)
         {
             foreach (Appointment appointmentInList in appointments)
             {
@@ -87,9 +96,9 @@ namespace AdmDentalOffice
                     int startTimeIntAppointment = int.Parse(appointment.StartTime);
                     int endTimeIntAppointment = int.Parse(appointment.EndTime);
 
-                    if (startTimeIntAppointment >= startTimeIntAppointmentInList && startTimeIntAppointment < endTimeIntAppointmentInList) 
+                    if (startTimeIntAppointment >= startTimeIntAppointmentInList && startTimeIntAppointment < endTimeIntAppointmentInList)
                     {
-                        return true;    
+                        return true;
                     }
                     if (endTimeIntAppointment >= startTimeIntAppointmentInList && endTimeIntAppointment <= endTimeIntAppointmentInList)
                     {
@@ -104,7 +113,7 @@ namespace AdmDentalOffice
         public static Dictionary<Appointment, Patient> ListAllAppointments()
         {
             appointments = appointments.OrderBy(x => x.ConsultationDate).ToList();
-            
+
             var response = new Dictionary<Appointment, Patient>();
 
             foreach (var appointment in appointments)
@@ -143,5 +152,15 @@ namespace AdmDentalOffice
 
             return appointment;
         }
-    }    
+
+        public static Appointment GetAppointment(long cpf, string consultDate, string initialHour)
+        {
+            var appointment = appointments.FirstOrDefault(
+                x => x.Cpf == cpf && 
+                x.ConsultationDate == consultDate &&
+                x.StartTime == initialHour);
+
+            return appointment;
+        }
+    }
 }
