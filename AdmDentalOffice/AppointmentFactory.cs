@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AdmDentalOffice
 {
@@ -67,8 +61,7 @@ namespace AdmDentalOffice
 
             Appointment appointment = new Appointment(long.Parse(cpf), consultationDate, starTime, endTime);
             
-            ListAppointment listAppointment = new ListAppointment();
-            listAppointment.addAppointment(appointment);
+            ListAppointment.addAppointment(appointment);
 
             return null;
         }
