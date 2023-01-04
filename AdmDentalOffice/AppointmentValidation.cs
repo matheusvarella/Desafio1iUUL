@@ -1,10 +1,6 @@
-﻿    using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace AdmDentalOffice
 {
@@ -20,15 +16,11 @@ namespace AdmDentalOffice
         }
         public string cpfValidation(string cpf)
         {
-           
-            PatientValidation patientValidation = new PatientValidation();
+            string error = PatientValidation.cpfValidation(cpf);
 
-            string error =  patientValidation.cpfValidation(cpf);
-
-            ListPatient listPatient = new ListPatient();
             if (error == null)
             {
-                if (!listPatient.existPatient(long.Parse(cpf)))
+                if (!ListPatient.existPatient(long.Parse(cpf)))
                 {
                     error = "CPF não cadastrado como paciente";
                 }

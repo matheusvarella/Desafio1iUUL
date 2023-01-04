@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
+using System.Threading;
 
 namespace AdmDentalOffice
 {
@@ -16,9 +14,11 @@ namespace AdmDentalOffice
 
         public Patient(string name, long cpf, DateTime birthDate)
         {
+            //Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
+            
             Name = name;
             Cpf = cpf;
-            BirthDate = BirthDate;
+            BirthDate = birthDate;
         }
 
     }

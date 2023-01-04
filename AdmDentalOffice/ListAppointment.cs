@@ -1,40 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdmDentalOffice
 {
-    public class ListAppointment
+    public static class ListAppointment
     {
-        private List<Appointment> appointments;
-        public ListAppointment() 
-        { 
-            appointments = new List<Appointment>();
-        }
+        private static List<Appointment> appointments = new List<Appointment>();
 
-        public void addAppointment(Appointment appointment)
+        public static string addAppointment(Appointment appointment)
         {
             if (futureAppointment(appointment.Cpf))
             {
-                throw new Exception("Paciente já possui consulta agendada");
+                return "Paciente já possui consulta agendada";
             }
 
             if (haveAppointmentInThisTime(appointment))
             {
-                throw new Exception("Já existe consulta agendada nesse horário");
+                return "Já existe consulta agendada nesse horário";
             }
 
             appointments.Add(appointment);
+            return null;
         }
 
-        public void removeAppointment(Appointment appointment)
+        public static void removeAppointment(Appointment appointment)
         {
             appointments.Remove(appointment);
         }
 
-        public void removeAllAppointments(long cpf)
+        public static void removeAllAppointments(long cpf)
         {
             foreach (Appointment appointment in appointments)
             {
@@ -45,7 +40,7 @@ namespace AdmDentalOffice
             }
         }
 
-        public Appointment findAppointmentForCpf(long cpf)
+        public static Appointment findAppointmentForCpf(long cpf)
         {
             foreach (Appointment appointment in appointments)
             {
@@ -57,7 +52,7 @@ namespace AdmDentalOffice
             throw new Exception("CPF não cadastrado na lista de consultas");
         }
 
-        public bool futureAppointment(long cpf)
+        public static bool futureAppointment(long cpf)
         {
             DateTime dateNow = DateTime.Now;
             foreach (Appointment appointment in appointments)
@@ -80,7 +75,7 @@ namespace AdmDentalOffice
             return false;
         }
 
-        public bool haveAppointmentInThisTime(Appointment appointment)
+        public static bool haveAppointmentInThisTime(Appointment appointment)
         {
             foreach (Appointment appointmentInList in appointments)
             {
@@ -105,7 +100,48 @@ namespace AdmDentalOffice
 
             return false;
         }
-    }    
 
-    
+        public static Dictionary<Appointment, Patient> ListAllAppointments()
+        {
+            appointments = appointments.OrderBy(x => x.ConsultationDate).ToList();
+            
+            var response = new Dictionary<Appointment, Patient>();
+
+            foreach (var appointment in appointments)
+            {
+                var patient = ListPatient.GetPatient(appointment.Cpf);
+
+                response.Add(appointment, patient);
+            }
+
+            return response;
+        }
+
+        public static Dictionary<Appointment, Patient> ListAppointmentsByPeriod(string initialDate, string finalDate)
+        {
+            appointments = appointments.OrderBy(x => x.ConsultationDate).ToList();
+
+            var response = new Dictionary<Appointment, Patient>();
+
+            foreach (var appointment in appointments)
+            {
+                if (DateTime.Parse(appointment.ConsultationDate) >= DateTime.Parse(initialDate) &&
+                    DateTime.Parse(appointment.ConsultationDate) <= DateTime.Parse(finalDate))
+                {
+                    var patient = ListPatient.GetPatient(appointment.Cpf);
+
+                    response.Add(appointment, patient);
+                }
+            }
+
+            return response;
+        }
+
+        public static Appointment GetAppointment(long cpf)
+        {
+            var appointment = appointments.FirstOrDefault(x => x.Cpf == cpf && DateTime.Parse(x.ConsultationDate) > DateTime.Now);
+
+            return appointment;
+        }
+    }    
 }

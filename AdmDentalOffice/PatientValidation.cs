@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AdmDentalOffice.Validators;
+using System;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace AdmDentalOffice
 {
-    public class PatientValidation
+    public static class PatientValidation
     {
-        
-        public PatientValidation() { }
-
-        public string nameValidation(string name)
+        public static string nameValidation(string name)
         {
             if (name.Length < 5 || !new Regex(@"[a-zA-Z]").IsMatch(name))
             {
@@ -25,83 +17,87 @@ namespace AdmDentalOffice
             return null;
         }
 
-        public string cpfValidation(string cpf)
+        public static string cpfValidation(string cpf)
         {
-
-            if (cpf.Length != 11 && !new Regex(@"[0-9]").IsMatch(cpf))
-            {
+            if (!cpf.CPFIsValid())
                 return "CPF inválido, digite o CPF corretamente";
-            }
-            else
-            {
-                int multipleCPF = 0;
-                int multiplier = 10;
-                for (int i = 0; i < 9; i++)
-                {
-                    multipleCPF += int.Parse(cpf.Substring(i, 1)) * multiplier;
-                    multiplier--;
-                }
-
-                int rest = multipleCPF % 11;
-                string j = cpf.Substring(9, 1);
-                if (rest < 2)
-                {
-                    if (j != "0")
-                    {
-                        return "CPF inválido, digite um valor valido";
-                    }
-                }
-                else if (rest > 1 && rest < 11)
-                {
-                    if (j != (11 - rest).ToString())
-                    {
-                        return "CPF inválido, digite um valor valido";
-                    }
-                }
-
-                multipleCPF = 0;
-                multiplier = 11;
-                for (int i = 0; i < 10; i++)
-                {
-                    multipleCPF += int.Parse(cpf.Substring(i, 1)) * multiplier;
-                    multiplier--;
-                }
-                rest = multipleCPF % 11;
-                string k = cpf.Substring(10, 1);
-                if (rest < 2)
-                {
-                    if (k != "0")
-                    {
-                        return "CPF inválido, digite um valor valido";
-                    }
-                }
-                else if (rest > 1 && rest < 11)
-                {
-                    if (k != (11 - rest).ToString())
-                    {
-                        return "CPF inválido, digite um valor valido";
-                    }
-                }
-
-            }
-
-            bool equals = true;
-            for (int i = 0; i < cpf.Length; i++)
-            {
-                if (cpf.Substring(0, 1) != cpf.Substring(i, 1))
-                {
-                    equals = false;
-                }
-            }
-            if (equals)
-            {
-                return "CPf inválido, um CPF não repete os mesmo numeros o tempo todo";
-            }
 
             return null;
+
+            //if (cpf.Length != 11 || !new Regex(@"[0-9]").IsMatch(cpf))
+            //{
+            //    return "CPF inválido, digite o CPF corretamente";
+            //}
+            //else
+            //{
+            //    int multipleCPF = 0;
+            //    int multiplier = 10;
+            //    for (int i = 0; i < 9; i++)
+            //    {
+            //        multipleCPF += int.Parse(cpf.Substring(i, 1)) * multiplier;
+            //        multiplier--;
+            //    }
+
+            //    int rest = multipleCPF % 11;
+            //    string j = cpf.Substring(9, 1);
+            //    if (rest < 2)
+            //    {
+            //        if (j != "0")
+            //        {
+            //            return "CPF inválido, digite um valor valido";
+            //        }
+            //    }
+            //    else if (rest > 1 && rest < 11)
+            //    {
+            //        if (j != (11 - rest).ToString())
+            //        {
+            //            return "CPF inválido, digite um valor valido";
+            //        }
+            //    }
+
+            //    multipleCPF = 0;
+            //    multiplier = 11;
+            //    for (int i = 0; i < 10; i++)
+            //    {
+            //        multipleCPF += int.Parse(cpf.Substring(i, 1)) * multiplier;
+            //        multiplier--;
+            //    }
+            //    rest = multipleCPF % 11;
+            //    string k = cpf.Substring(10, 1);
+            //    if (rest < 2)
+            //    {
+            //        if (k != "0")
+            //        {
+            //            return "CPF inválido, digite um valor valido";
+            //        }
+            //    }
+            //    else if (rest > 1 && rest < 11)
+            //    {
+            //        if (k != (11 - rest).ToString())
+            //        {
+            //            return "CPF inválido, digite um valor valido";
+            //        }
+            //    }
+
+            //}
+
+            //bool equals = true;
+            //for (int i = 0; i < cpf.Length; i++)
+            //{
+            //    if (cpf.Substring(0, 1) != cpf.Substring(i, 1))
+            //    {
+            //        equals = false;
+            //    }
+            //}
+            //if (equals)
+            //{
+            //    return "CPf inválido, um CPF não repete os mesmo numeros o tempo todo";
+            //}
+
+            //return null;
         }
 
-        public string birthDateValidation(string birthDate)
+        public static string birthDateValidation(string birthDate)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             if (birthDate.Length == 10)

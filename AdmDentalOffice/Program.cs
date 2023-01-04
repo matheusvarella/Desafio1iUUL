@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AdmDentalOffice.LayoutControllers;
+using AdmDentalOffice.LayoutControllers.Layouts;
+using System.Globalization;
+using System.Threading;
 
 namespace AdmDentalOffice
 {
@@ -6,7 +9,14 @@ namespace AdmDentalOffice
     {
         static void Main(string[] args)
         {
-            
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
+
+            ListPatient.addPatient(new Patient("Matheus", 10712238956, System.DateTime.Parse("14/10/2000")));
+
+            ListAgendaFormatted.FormateHour("0800");
+
+            Print.PrintStart();
+
         }
     }
 }
