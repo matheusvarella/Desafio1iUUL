@@ -68,9 +68,9 @@ namespace AdmDentalOffice.Controllers
             {
                 if (appointment.Cpf == cpf)
                 {
-                    int day = int.Parse(appointment.ConsultationDate.Substring(0, 2));
-                    int month = int.Parse(appointment.ConsultationDate.Substring(3, 2));
-                    int year = int.Parse(appointment.ConsultationDate.Substring(6, 4));
+                    int day = int.Parse(appointment.AppointmentDate.Substring(0, 2));
+                    int month = int.Parse(appointment.AppointmentDate.Substring(3, 2));
+                    int year = int.Parse(appointment.AppointmentDate.Substring(6, 4));
                     DateTime dateAppointment = new DateTime(year, month, day);
                     dateAppointment.AddSeconds((double)(int.Parse(appointment.StartTime.Substring(0, 2)) * 60 * 60) + int.Parse(appointment.StartTime.Substring(2, 2)) * 60);
 
@@ -88,7 +88,7 @@ namespace AdmDentalOffice.Controllers
         {
             foreach (Appointment appointmentInList in appointments)
             {
-                if (appointmentInList.ConsultationDate == appointment.ConsultationDate)
+                if (appointmentInList.AppointmentDate == appointment.AppointmentDate)
                 {
                     int startTimeIntAppointmentInList = int.Parse(appointmentInList.StartTime);
                     int endTimeIntAppointmentInList = int.Parse(appointmentInList.EndTime);
@@ -112,7 +112,7 @@ namespace AdmDentalOffice.Controllers
 
         public static Dictionary<Appointment, Patient> ListAllAppointments()
         {
-            appointments = appointments.OrderBy(x => x.ConsultationDate).ToList();
+            appointments = appointments.OrderBy(x => x.AppointmentDate).ToList();
 
             var response = new Dictionary<Appointment, Patient>();
 
@@ -128,14 +128,14 @@ namespace AdmDentalOffice.Controllers
 
         public static Dictionary<Appointment, Patient> ListAppointmentsByPeriod(string initialDate, string finalDate)
         {
-            appointments = appointments.OrderBy(x => x.ConsultationDate).ToList();
+            appointments = appointments.OrderBy(x => x.AppointmentDate).ToList();
 
             var response = new Dictionary<Appointment, Patient>();
 
             foreach (var appointment in appointments)
             {
-                if (DateTime.Parse(appointment.ConsultationDate) >= DateTime.Parse(initialDate) &&
-                    DateTime.Parse(appointment.ConsultationDate) <= DateTime.Parse(finalDate))
+                if (DateTime.Parse(appointment.AppointmentDate) >= DateTime.Parse(initialDate) &&
+                    DateTime.Parse(appointment.AppointmentDate) <= DateTime.Parse(finalDate))
                 {
                     var patient = ListPatient.GetPatient(appointment.Cpf);
 
@@ -148,7 +148,7 @@ namespace AdmDentalOffice.Controllers
 
         public static Appointment GetAppointment(long cpf)
         {
-            var appointment = appointments.FirstOrDefault(x => x.Cpf == cpf && DateTime.Parse(x.ConsultationDate) > DateTime.Now);
+            var appointment = appointments.FirstOrDefault(x => x.Cpf == cpf && DateTime.Parse(x.AppointmentDate) > DateTime.Now);
 
             return appointment;
         }
@@ -157,7 +157,7 @@ namespace AdmDentalOffice.Controllers
         {
             var appointment = appointments.FirstOrDefault(
                 x => x.Cpf == cpf && 
-                x.ConsultationDate == consultDate &&
+                x.AppointmentDate == consultDate &&
                 x.StartTime == initialHour);
 
             return appointment;

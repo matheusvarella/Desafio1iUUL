@@ -16,13 +16,13 @@ namespace AdmDentalOffice.LayoutControllers.Layouts
             Console.WriteLine(baseList);
             foreach (var item in items)
             {
-                if (date == item.Key.ConsultationDate)
+                if (date == item.Key.AppointmentDate)
                 {
                     Console.WriteLine("          .");
                 }
                 else
                 {
-                    date = item.Key.ConsultationDate;
+                    date = item.Key.AppointmentDate;
                     Console.Write($"{date} ");
                 }
 
