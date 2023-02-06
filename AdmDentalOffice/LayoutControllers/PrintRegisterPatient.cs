@@ -125,30 +125,37 @@ namespace AdmDentalOffice.LayoutControllers
             do
             {
                 Console.Write("CPF: ");
-                var cpf = Console.ReadLine();
-
-                var erro = PatientValidation.CpfValidation(cpf);
-                if (erro != null)
-                    erros.Add(erro);
-
-                if (erros.Count > 0)
+                try
                 {
-                    PrintErro.PrintErros(erros);
-                }
-                else
-                {
-                    erro = ListPatient.RemovePatient(long.Parse(cpf));
+                    var cpf = Console.ReadLine();
+                    PatientValidation.CpfValidation(cpf);
+                    /*var erro = PatientValidation.CpfValidation(cpf);
                     if (erro != null)
                         erros.Add(erro);
 
                     if (erros.Count > 0)
                     {
                         PrintErro.PrintErros(erros);
-                    }
-                    else
-                    {
-                        Console.WriteLine("\r\nPaciente excluido com sucesso!");
-                    }
+                    }*/
+                    //else
+                    //{
+                        erro = ListPatient.RemovePatient(long.Parse(cpf));
+                        if (erro != null)
+                            erros.Add(erro);
+
+                        if (erros.Count > 0)
+                        {
+                            PrintErro.PrintErros(erros);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\r\nPaciente excluido com sucesso!");
+                        }
+                    //}
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
                 }
 
             } while (erros.Count > 0);

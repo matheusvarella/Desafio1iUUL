@@ -16,12 +16,11 @@ namespace AdmDentalOffice.Validators
             return null;
         }
 
-        public static string CpfValidation(string cpf)
+        public static void CpfValidation(string cpf)
         {
             if (!cpf.CPFIsValid())
-                return "CPF inválido, digite o CPF corretamente";
+                throw new Exception("CPF inválido, digite o CPF corretamente");
 
-            return null;
         }
 
         public static string BirthDateValidation(string birthDate)
