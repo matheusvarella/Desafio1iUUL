@@ -13,7 +13,7 @@ namespace AdmDentalOffice.LayoutControllers
     {
         public static void Agenda()
         {
-            int option;
+            string option;
             do
             {
                 Console.WriteLine(
@@ -23,9 +23,37 @@ namespace AdmDentalOffice.LayoutControllers
                     "3-Listar agenda\r\n" +
                     "4-Voltar p/ menu principal"
                     );
-                option = int.Parse(Console.ReadLine());
+                option = Console.ReadLine();
 
-                switch (option)
+                if (option.Equals('1'))
+                {
+                    Console.Clear();
+                    RegisterConsult();
+                    Console.WriteLine();
+                }
+                else if (option.Equals('2'))
+                {
+                    Console.Clear();
+                    DeleteConsult();
+                    Console.WriteLine();
+                }
+                else if (option.Equals('3'))
+                {
+                    Console.Clear();
+                    ListAgenda();
+                    Console.WriteLine();
+                }
+                else if(option.Equals('4'))
+                {
+                    Console.Clear();
+                    Print.PrintStart();
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Opção informada inválida! Informe novamente!");
+                }
+                /*switch (option)
                 {
                     case 1:
                         Console.Clear();
@@ -50,130 +78,102 @@ namespace AdmDentalOffice.LayoutControllers
                     default:
                         Console.WriteLine("Opção informada inválida! Informe novamente!");
                         break;
-                }
+                }*/
 
-            } while (option != 4);
+            } while (option.Equals('4'));
         }
 
         public static void RegisterConsult()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
-            var erros = new List<string>();
-            try
+            bool containsError = true;
+            
+            do
             {
-                do
+                try
                 {
                     Console.Write("CPF: ");
                     var cpf = long.Parse(Console.ReadLine());
                     
-                    var erro = PatientValidation.CpfValidation(cpf.ToString());
-                    if (erro != null)
-                        erros.Add(erro);
+                    PatientValidation.CpfValidation(cpf.ToString());
+                    
+                    Console.Write("Data da consulta: ");
+                    var consultDate = Console.ReadLine();
 
-                    if (erros.Count == 0)
-                    {
-                        Console.Write("Data da consulta: ");
-                        var consultDate = Console.ReadLine();
+                    Console.Write("Hora inicial: ");
+                    var intialHour = Console.ReadLine();
 
-                        Console.Write("Hora inicial: ");
-                        var intialHour = Console.ReadLine();
+                    Console.Write("Hora final: ");
+                    var finalHour = Console.ReadLine();
 
-                        Console.Write("Hora final: ");
-                        var finalHour = Console.ReadLine();
-
-                        var appointment = new Appointment(cpf, consultDate, intialHour, finalHour);
+                    Appointment appointment = new Appointment(cpf, consultDate, intialHour, finalHour);
                         
-                        erro = ListAppointment.AddAppointment(appointment);
-                        if (erro != null)
-                            erros.Add(erro);
-                        
-                        if (erros.Count > 0)
-                        {
-                            PrintErro.PrintErros(erros);
-                        }
-                        else
-                        {
-                            Console.WriteLine("\r\nAgendamento realizado com sucesso!");
-                        }
-                    }
-                    else
-                    {
-                        PrintErro.PrintErros(erros);
-                    }
-                } while (erros.Count > 0);
-            }
-            catch (Exception ex)
-            {
-                erros.Add(ex.ToString());
-                PrintErro.PrintErros(erros);
-            }
+                    ListAppointment.AddAppointment(appointment);
+                
+                    Console.WriteLine("\r\nAgendamento realizado com sucesso!");
+
+                    containsError = false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            } while (containsError);
+            
         }
 
         public static void DeleteConsult()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
-            var erros = new List<string>();
-            try
+            bool containsError = true;
+
+            do
             {
-                do
+                try
                 {
                     Console.Write("CPF: ");
                     var cpf = long.Parse(Console.ReadLine());
 
-                    var erro = PatientValidation.CpfValidation(cpf.ToString());
-                    if (erro != null)
-                        erros.Add(erro);
+                    PatientValidation.CpfValidation(cpf.ToString());
+                    
+                    Console.Write("Data da consulta: ");
+                    var consultDate = Console.ReadLine();
 
-                    if (erros.Count == 0)
-                    {
-                        Console.Write("Data da consulta: ");
-                        var consultDate = Console.ReadLine();
+                    Console.Write("Hora inicial: ");
+                    var intialHour = Console.ReadLine();
 
-                        Console.Write("Hora inicial: ");
-                        var intialHour = Console.ReadLine();
+                    Appointment appointment = ListAppointment.GetAppointment(cpf);
 
-                        var appointment = ListAppointment.GetAppointment(cpf);
+                    ListAppointment.RemoveAppointment(appointment);
+                    
+                    Console.WriteLine("\r\nAgendamento realizado com sucesso!");
 
-                        erro = ListAppointment.RemoveAppointment(appointment);
-                        if (erro != null)
-                            erros.Add(erro);
-
-                        if (erros.Count > 0)
-                        {
-                            PrintErro.PrintErros(erros);
-                        }
-                        else
-                        {
-                            Console.WriteLine("\r\nAgendamento realizado com sucesso!");
-                        }
-                    }
-                    else
-                    {
-                        PrintErro.PrintErros(erros);
-                    }
-                } while (erros.Count > 0);
-            }
-            catch (Exception ex)
-            {
-                erros.Add(ex.ToString());
-                PrintErro.PrintErros(erros);
-            }
+                    containsError = false;
+                    
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            } while (containsError);
+            
         }
 
         public static void ListAgenda()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
-            var erros = new List<string>();
-            try
+            bool containsError = true;
+
+            do
             {
-                do
+                try
                 {
                     Console.Write("Apresentar a agenda T-Toda ou P-Periodo: ");
-                    var option = Console.ReadLine().ToUpper();
+                    string option = Console.ReadLine().ToUpper();
 
                     if (option == "P")
                     {
-                        var validator = new AppointmentValidation();
+                        AppointmentValidation validator = new AppointmentValidation();
 
                         Console.Write("Data inicial: ");
                         var initialDate = Console.ReadLine();
@@ -181,20 +181,14 @@ namespace AdmDentalOffice.LayoutControllers
                         Console.Write("Data final: ");
                         var finalDate = Console.ReadLine();
 
-                        var erro = validator.StarTimeValidation(initialDate);
-                        if (erro != null)
-                            erros.Add(erro);
+                        validator.StarTimeValidation(initialDate);
                         
-                        erro = validator.EndTimeValidation(finalDate);
-                        if (erro != null)
-                            erros.Add(erro);
+                        validator.EndTimeValidation(finalDate);
                         
-                        if (erros.Count > 0)
-                        {
-                            var list = ListAppointment.ListAppointmentsByPeriod(initialDate, finalDate);
+                        var list = ListAppointment.ListAppointmentsByPeriod(initialDate, finalDate);
 
-                            ListAgendaFormatted.PrintListAgenda(list);
-                        }
+                        ListAgendaFormatted.PrintListAgenda(list);
+                        
                     } 
                     else if (option == "T") 
                     {
@@ -204,25 +198,18 @@ namespace AdmDentalOffice.LayoutControllers
                     } 
                     else
                     {
-                        erros.Add("Informe a opção corretamente");
-                        PrintErro.PrintErros(erros);
+                        throw new Exception("Informe a opção corretamente");
+                        
                     }
 
-                    if (erros.Count == 0)
-                    {
-    
-                    }
-                    else
-                    {
-                        PrintErro.PrintErros(erros);
-                    }
-                } while (erros.Count > 0);
-            }
-            catch (Exception ex)
-            {
-                erros.Add(ex.ToString());
-                PrintErro.PrintErros(erros);
-            }
+                    containsError = false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            } while (containsError);
+            
         }
     }
 }

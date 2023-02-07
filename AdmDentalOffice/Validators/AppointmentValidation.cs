@@ -15,20 +15,13 @@ namespace AdmDentalOffice.Validators
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
         }
-        public string CpfValidation(string cpf)
+        public void CpfValidation(string cpf)
         {
-            string error = PatientValidation.CpfValidation(cpf);
+            if (!cpf.CPFIsValid())
+                throw new Exception("CPF inválido, digite o CPF corretamente");
 
-            if (error == null)
-            {
-                if (!ListPatient.ExistPatient(long.Parse(cpf)))
-                {
-                    error = "CPF não cadastrado como paciente";
-                }
-            }
-            return error;
         }
-        public string ConsultationDateValidation(string consultationDate)
+        public void ConsultationDateValidation(string consultationDate)
         {
             try
             {
@@ -39,27 +32,27 @@ namespace AdmDentalOffice.Validators
             }
             catch
             {
-                return "Formato de data inválido";
+                throw new Exception("Formato de data inválido");
             }
 
             if (dateTimeNow > consultatioDateDateTime)
             {
-                return "Data da consulta não pode ser anterior a data atual";
+                throw new Exception("Data da consulta não pode ser anterior a data atual");
             }
 
-            return null;
         }
-        public string StarTimeValidation(string starTime)
+
+        public void StarTimeValidation(string starTime)
         {
             startTimeInt = int.Parse(starTime);
             if (startTimeInt % 15 != 0)
             {
-                return "Formato de hora inicial inválido";
+                throw new Exception("Formato de hora inicial inválido");
             }
 
             if (startTimeInt < 800 || startTimeInt > 1900)
             {
-                return "Horário de atendimento é somente das 08:00 até as 19:00";
+                throw new Exception("Horário de atendimento é somente das 08:00 até as 19:00");
             }
 
             double seconds = TransformToSeconds(starTime);
@@ -68,31 +61,30 @@ namespace AdmDentalOffice.Validators
 
             if (dateTimeNow > consultatioDateDateTime)
             {
-                return "Data da consulta não pode ser anterior a data atual";
+                throw new Exception("Data da consulta não pode ser anterior a data atual");
             }
 
-            return null;
         }
-        public string EndTimeValidation(string endTime)
+        public void EndTimeValidation(string endTime)
         {
             endTimeInt = int.Parse(endTime);
             if (endTimeInt % 15 != 0)
             {
-                return "Formato de hora final inválido";
+                throw new Exception("Formato de hora final inválido");
             }
 
             if (endTimeInt < 800 || endTimeInt > 1900)
             {
-                return "Horário de atendimento é somente das 08:00 até as 19:00";
+                throw new Exception("Horário de atendimento é somente das 08:00 até as 19:00");
             }
 
             int timeOfAppointment = endTimeInt - startTimeInt;
 
             if (timeOfAppointment < 15 || timeOfAppointment % 15 != 0)
             {
-                return "Horário da consulta inválido. É necessário ao menos 15 minutos para a consulta e ela só deve ser agendada a cada 15 minutos";
+                throw new Exception("Horário da consulta inválido. É necessário ao menos 15 minutos para a consulta e ela só deve ser agendada a cada 15 minutos");
             }
-            return null;
+            
         }
 
         private double TransformToSeconds(string value)

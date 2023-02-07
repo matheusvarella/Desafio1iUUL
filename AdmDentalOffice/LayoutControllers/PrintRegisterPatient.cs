@@ -26,7 +26,39 @@ namespace AdmDentalOffice.LayoutControllers
                     );
                 option = int.Parse(Console.ReadLine());
 
-                switch (option)
+                if (option == 1)
+                {
+                    Console.Clear();
+                    RegisterPatient();
+                    Console.WriteLine();
+                }
+                else if(option == 2)
+                {
+                    Console.Clear();
+                    DeletePatient();
+                    Console.WriteLine();
+                }
+                else if(option == 3)
+                {
+                    Console.Clear();
+                    PatientByCPF();
+                    Console.WriteLine();
+                }
+                else if(option == 4)
+                {
+                    Console.Clear();
+                    PatientByName();
+                    Console.WriteLine();
+                }
+                else if (option == 5)
+                {
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine("Opção informada inválida! Informe novamente!");
+                }
+               /* switch (option)
                 {
                     case 1:
                         Console.Clear();
@@ -55,17 +87,18 @@ namespace AdmDentalOffice.LayoutControllers
                     default:
                         Console.WriteLine("Opção informada inválida! Informe novamente!");
                         break;
-                }
-            } while (option != 5);
+                }*/
+            } while (option == 5);
         }
 
         public static void RegisterPatient()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
-            var erros = new List<string>();
-            try
+            bool containsError = true;
+            
+            do
             {
-                do
+                try
                 {
                     Console.Write("CPF: ");
                     var cpf = long.Parse(Console.ReadLine());
@@ -75,90 +108,55 @@ namespace AdmDentalOffice.LayoutControllers
 
                     Console.Write("Data de nascimento: ");
                     var birthDate = Console.ReadLine();
+                    
+                    PatientValidation.CpfValidation(cpf.ToString());
+                    
+                    PatientValidation.NameValidation(name);
+                    
+                    PatientValidation.BirthDateValidation(birthDate);
+                    
+                    Patient patient = new Patient(name, cpf, DateTime.Parse(birthDate));
 
-                    var erro = PatientValidation.CpfValidation(cpf.ToString());
-                    if (erro != null)
-                        erros.Add(erro);
-
-                    erro = PatientValidation.NameValidation(name);
-                    if (erro != null)
-                        erros.Add(erro);
-
-                    erro = PatientValidation.BirthDateValidation(birthDate);
-                    if (erro != null)
-                        erros.Add(erro);
-
-                    if (erros.Count > 0)
-                    {
-                        PrintErro.PrintErros(erros);
-                    }
-                    else
-                    {
-                        var patient = new Patient(name, cpf, DateTime.Parse(birthDate));
-
-                        erro = ListPatient.AddPatient(patient);
-                        if (erro != null)
-                            erros.Add(erro);
-
-                        if (erros.Count > 0)
-                        {
-                            PrintErro.PrintErros(erros);
-                        }
-                        else
-                        {
-                            Console.WriteLine("\r\nCadastrado com sucesso!");
-                        }
-                    }
-                } while (erros.Count > 0);
-            }
-            catch (Exception ex)
-            {
-                erros.Add(ex.ToString());
-                PrintErro.PrintErros(erros);
-            }
+                    ListPatient.AddPatient(patient);
+                    
+                    Console.WriteLine("\r\nCadastrado com sucesso!");
+                    
+                    containsError = false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            } while (containsError);
+            
         }
 
         public static void DeletePatient()
         {
-            var erros = new List<string>();
-
+            bool containsError = true;
+            string error = null;
             do
             {
                 Console.Write("CPF: ");
                 try
                 {
                     var cpf = Console.ReadLine();
+                    
                     PatientValidation.CpfValidation(cpf);
-                    /*var erro = PatientValidation.CpfValidation(cpf);
-                    if (erro != null)
-                        erros.Add(erro);
-
-                    if (erros.Count > 0)
-                    {
-                        PrintErro.PrintErros(erros);
-                    }*/
-                    //else
-                    //{
-                        erro = ListPatient.RemovePatient(long.Parse(cpf));
-                        if (erro != null)
-                            erros.Add(erro);
-
-                        if (erros.Count > 0)
-                        {
-                            PrintErro.PrintErros(erros);
-                        }
-                        else
-                        {
-                            Console.WriteLine("\r\nPaciente excluido com sucesso!");
-                        }
-                    //}
+                    
+                    ListPatient.RemovePatient(long.Parse(cpf));
+                    
+                    Console.WriteLine("\r\nPaciente excluido com sucesso!");
+                    
+                    containsError = false;
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine(ex.Message); 
                 }
+                
 
-            } while (erros.Count > 0);
+            } while (containsError);
         }
 
         public static void PatientByCPF()

@@ -7,13 +7,13 @@ namespace AdmDentalOffice.Validators
 {
     public static class PatientValidation
     {
-        public static string NameValidation(string name)
+        public static void NameValidation(string name)
         {
             if (name.Length < 5 || !new Regex(@"[a-zA-Z]").IsMatch(name))
             {
-                return "Nome inválido, digite corretamente e com 5 caracteres no minimo";
+                throw new Exception("Nome inválido, digite corretamente e com 5 caracteres no minimo");
             }
-            return null;
+            
         }
 
         public static void CpfValidation(string cpf)
@@ -23,7 +23,7 @@ namespace AdmDentalOffice.Validators
 
         }
 
-        public static string BirthDateValidation(string birthDate)
+        public static void BirthDateValidation(string birthDate)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             if (birthDate.Length == 10)
@@ -36,19 +36,18 @@ namespace AdmDentalOffice.Validators
                 }
                 catch (FormatException e)
                 {
-                    return "Data de nascimento inválida";
+                    throw new Exception("Data de nascimento inválida. "+e.Message);
                 }
 
                 if (birthDateDateTime.AddYears(13) > DateTime.Now)
                 {
-                    return "Não pode ter menos que 13 anos";
+                    throw new Exception("Não pode ter menos que 13 anos");
                 }
             }
             else
             {
-                return "Data de Nascimento inválida";
+                throw new Exception("Data de Nascimento inválida");
             }
-            return null;
         }
 
     }

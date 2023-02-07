@@ -9,18 +9,17 @@ namespace AdmDentalOffice.Controllers
     {
         private static List<Patient> patients = new List<Patient>();
 
-        public static string AddPatient(Patient patient)
+        public static void AddPatient(Patient patient)
         {
             if (ExistPatient(patient.Cpf))
             {
-                return "CPF de paciente ja cadastrado";
+                throw new Exception("CPF de paciente ja cadastrado");
             }
             patients.Add(patient);
 
-            return null;
         }
 
-        public static string RemovePatient(long cpf)
+        public static void RemovePatient(long cpf)
         {
             if (ExistPatient(cpf))
             {
@@ -36,16 +35,16 @@ namespace AdmDentalOffice.Controllers
                         }
                         else
                         {
-                            return "Esse paciente possui consultas futuras por isso não pode ser excluido";
+                            throw new Exception("Esse paciente possui consultas futuras por isso não pode ser excluido");
                         }
                     }
                 }
 
-                return null;
+                
             }
             else
             {
-                return "CPF de paciente não encontrado";
+                throw new Exception("CPF de paciente não encontrado");
             }
         }
 

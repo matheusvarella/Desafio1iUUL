@@ -10,24 +10,31 @@ namespace AdmDentalOffice.LayoutControllers.Layouts
 
         public static void PrintListPatient(Dictionary<Patient, Appointment> items)
         {
-            Console.WriteLine(baseList);
-            Console.WriteLine($"CPF         Nome                              Dt.Nasc. Idade");
-            Console.WriteLine(baseList);
-            foreach (var item in items)
+            if (items.Equals(null))
             {
-                Console.Write(item.Key.Cpf + " ");
-                FormateName(item.Key.Name + " ");
-                Console.Write(item.Key.BirthDate.ToString().Substring(0, 10) + " ");
-                Console.WriteLine(FormateYears(item.Key.BirthDate.ToString()));
-
-                if (item.Value != null)
+                Console.WriteLine("Não ha pacientes para listar");
+            }
+            else
+            {
+                Console.WriteLine(baseList);
+                Console.WriteLine($"CPF         Nome                              Dt.Nasc. Idade");
+                Console.WriteLine(baseList);
+                foreach (var item in items)
                 {
-                    Console.WriteLine("            " + item.Value.ConsultationDate);
-                    Console.Write("            ");
-                    FormateHour(item.Value.StartTime);
-                    Console.Write(" às ");
-                    FormateHour(item.Value.EndTime);
-                    Console.WriteLine();
+                    Console.Write(item.Key.Cpf + " ");
+                    FormateName(item.Key.Name + " ");
+                    Console.Write(item.Key.BirthDate.ToString().Substring(0, 10) + " ");
+                    Console.WriteLine(FormateYears(item.Key.BirthDate.ToString()));
+
+                    if (item.Value != null)
+                    {
+                        Console.WriteLine("            " + item.Value.ConsultationDate);
+                        Console.Write("            ");
+                        FormateHour(item.Value.StartTime);
+                        Console.Write(" às ");
+                        FormateHour(item.Value.EndTime);
+                        Console.WriteLine();
+                    }
                 }
             }
         }

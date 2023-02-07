@@ -9,32 +9,31 @@ namespace AdmDentalOffice.Controllers
     {
         private static List<Appointment> appointments = new List<Appointment>();
 
-        public static string AddAppointment(Appointment appointment)
+        public static void AddAppointment(Appointment appointment)
         {
             if (FutureAppointment(appointment.Cpf))
             {
-                return "Paciente já possui consulta agendada";
+                throw new Exception("Paciente já possui consulta agendada");
             }
 
             if (HaveAppointmentInThisTime(appointment))
             {
-                return "Já existe consulta agendada nesse horário";
+                throw new Exception("Já existe consulta agendada nesse horário");
             }
 
             appointments.Add(appointment);
-            return null;
+            
         }
 
-        public static string RemoveAppointment(Appointment appointment)
+        public static void RemoveAppointment(Appointment appointment)
         {
             try 
             {
                 appointments.Remove(appointment);
-                return null;
             }
             catch (Exception ex)
             {
-                return "Agendamento não encontrado";
+                throw new Exception("Agendamento não encontrado. "+ex.Message);
             }
         }
 
