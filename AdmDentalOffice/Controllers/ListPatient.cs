@@ -9,7 +9,7 @@ namespace AdmDentalOffice.Controllers
     {
         private static List<Patient> patients = new List<Patient>();
 
-        public static void AddPatient(Patient patient)
+        public static void InsertPatient(Patient patient)
         {
             if (ExistPatient(patient.Cpf))
             {

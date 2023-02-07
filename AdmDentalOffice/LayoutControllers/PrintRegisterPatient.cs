@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace AdmDentalOffice.LayoutControllers
 {
-    public static class PrintRegisterPatient
+    public static class PrintPatient
     {
         public static void Register()
         {
@@ -58,36 +58,7 @@ namespace AdmDentalOffice.LayoutControllers
                 {
                     Console.WriteLine("Opção informada inválida! Informe novamente!");
                 }
-               /* switch (option)
-                {
-                    case 1:
-                        Console.Clear();
-                        RegisterPatient();
-                        Console.WriteLine();
-                        break;
-                    case 2:
-                        Console.Clear();
-                        DeletePatient();
-                        Console.WriteLine();
-                        break;
-                    case 3:
-                        Console.Clear();
-                        PatientByCPF();
-                        Console.WriteLine();
-                        break;
-                    case 4:
-                        Console.Clear();
-                        PatientByName();
-                        Console.WriteLine();
-                        break;
-                    case 5:
-                        Console.Clear();
-                        Print.PrintStart();
-                        break;
-                    default:
-                        Console.WriteLine("Opção informada inválida! Informe novamente!");
-                        break;
-                }*/
+               
             } while (option == 5);
         }
 
@@ -117,7 +88,7 @@ namespace AdmDentalOffice.LayoutControllers
                     
                     Patient patient = new Patient(name, cpf, DateTime.Parse(birthDate));
 
-                    ListPatient.AddPatient(patient);
+                    ListPatient.InsertPatient(patient);
                     
                     Console.WriteLine("\r\nCadastrado com sucesso!");
                     
@@ -134,7 +105,7 @@ namespace AdmDentalOffice.LayoutControllers
         public static void DeletePatient()
         {
             bool containsError = true;
-            string error = null;
+            
             do
             {
                 Console.Write("CPF: ");

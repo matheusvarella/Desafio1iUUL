@@ -28,7 +28,7 @@ namespace AdmDentalOffice.LayoutControllers.Layouts
 
                     if (item.Value != null)
                     {
-                        Console.WriteLine("            " + item.Value.ConsultationDate);
+                        Console.WriteLine("            " + item.Value.AppointmentDate);
                         Console.Write("            ");
                         FormateHour(item.Value.StartTime);
                         Console.Write(" às ");

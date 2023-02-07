@@ -53,32 +53,6 @@ namespace AdmDentalOffice.LayoutControllers
                 {
                     Console.WriteLine("Opção informada inválida! Informe novamente!");
                 }
-                /*switch (option)
-                {
-                    case 1:
-                        Console.Clear();
-                        RegisterConsult();
-                        Console.WriteLine();
-                        break;
-                    case 2:
-                        Console.Clear();
-                        DeleteConsult();
-                        Console.WriteLine();
-                        break;
-                    case 3:
-                        Console.Clear();
-                        ListAgenda();
-                        Console.WriteLine();
-                        break;
-                    case 4:
-                        Console.Clear();
-                        Print.PrintStart();
-                        Console.WriteLine();
-                        break;
-                    default:
-                        Console.WriteLine("Opção informada inválida! Informe novamente!");
-                        break;
-                }*/
 
             } while (option.Equals('4'));
         }
@@ -108,7 +82,7 @@ namespace AdmDentalOffice.LayoutControllers
 
                     Appointment appointment = new Appointment(cpf, consultDate, intialHour, finalHour);
                         
-                    ListAppointment.AddAppointment(appointment);
+                    ListAppointment.InsertAppointment(appointment);
                 
                     Console.WriteLine("\r\nAgendamento realizado com sucesso!");
 
@@ -126,7 +100,7 @@ namespace AdmDentalOffice.LayoutControllers
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             bool containsError = true;
-            //teste 2
+            
             do
             {
                 try
