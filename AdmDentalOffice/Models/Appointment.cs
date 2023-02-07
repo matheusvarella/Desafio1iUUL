@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdmDentalOffice.Models
+﻿namespace AdmDentalOffice.Models
 {
     public class Appointment
     {
-        public long Cpf { get; set; }
+        public int Id { get; private set; }
+        public int PatientId { get; private set; }
+        public long Cpf { get; private set; }
+        public string AppointmentDate { get; private set; }
+        public string StartTime { get; private set; }
+        public string EndTime { get; private set; }
+        public Patient Patient { get; private set; }
 
-        public string ConsultationDate { get; set; }
+        private Appointment() { }
 
-        public string StartTime { get; set; }
-
-        public string EndTime { get; set; }
-
-        public Appointment(long cpf, string consultationDate, string starTime, string endTime)
+        public Appointment(long cpf, string appointmentDate, string starTime, string endTime)
         {
             Cpf = cpf;
-            ConsultationDate = consultationDate;
+            AppointmentDate = appointmentDate;
             StartTime = starTime;
             EndTime = endTime;
         }

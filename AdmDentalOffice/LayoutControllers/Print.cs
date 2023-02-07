@@ -7,43 +7,39 @@ namespace AdmDentalOffice.LayoutControllers
 
         public static void PrintStart()
         {
-            try
+            int option;
+            do
             {
-                int option;
-                do
-                {
-                    Console.WriteLine(
+                
+                Console.WriteLine(
                         "Menu Principal\r\n" +
-                        "1-Cadastro de pacientes\r\n" +
+                        "1-Pacientes\r\n" +
                         "2-Agenda\r\n" +
                         "3-Fim");
-                    option = int.Parse(Console.ReadLine());
 
-                    switch (option)
-                    {
-                        case 1:
-                            PrintRegisterPatient.Register();
-                            break;
-                        case 2:
-                            PrintAgenda.Agenda();
-                            break;
-                        case 3:
-                            Console.Clear();
-                            Console.WriteLine("Sistema finalizado!");
-                            break;
-                        default:
-                            Console.WriteLine("Opção informada inválida! Informe novamente!");
-                            break;
-                    }
+                option = int.Parse(Console.ReadLine());
 
-                } while (option != 3);
+                switch (option)
+                {
+                    case 1:
+                        PrintRegisterPatient.Register();
+                        break;
+                    case 2:
+                        PrintAgenda.Agenda();
+                        break;
+                    case 3:
+                        Console.Clear();
+                        Console.WriteLine("Finalizando o Sistema!");
+                        break;
+                    default:
+                        Console.WriteLine("Opção informada inválida! Informe novamente!");
+                        break;
+                }
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                PrintStart();
-            }
+            } while (option != 3);
+        
+            Console.WriteLine("Sistema Finalizado!");
+            Environment.Exit(0);
         }
     }
 }
