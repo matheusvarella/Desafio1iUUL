@@ -53,6 +53,7 @@ namespace AdmDentalOffice.LayoutControllers
                 else if (option == 5)
                 {
                     Console.Clear();
+
                 }
                 else
                 {

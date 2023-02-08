@@ -2,13 +2,15 @@
 {
     public class Appointment
     {
-        public int Id { get; private set; }
-        public int PatientId { get; private set; }
-        public long Cpf { get; private set; }
-        public string AppointmentDate { get; private set; }
-        public string StartTime { get; private set; }
-        public string EndTime { get; private set; }
-        public Patient Patient { get; private set; }
+
+        public int Id { get; set; }
+        public int PatientId { get; set; }
+        public long Cpf { get; set; }
+        public string AppointmentDate { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public Patient Patient { get; set; }
+
 
         private Appointment() { }
 
