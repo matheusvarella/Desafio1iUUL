@@ -25,9 +25,9 @@ namespace AdmDentalOffice.Validators
         {
             try
             {
-                int day = int.Parse(AppointmentDate.Substring(0, 2));
-                int month = int.Parse(AppointmentDate.Substring(3, 2));
-                int year = int.Parse(AppointmentDate.Substring(6, 4));
+                int day = int.Parse(consultationDate.Substring(0, 2));
+                int month = int.Parse(consultationDate.Substring(3, 2));
+                int year = int.Parse(consultationDate.Substring(6, 4));
                 consultatioDateDateTime = new DateTime(year, month, day);
             }
             catch

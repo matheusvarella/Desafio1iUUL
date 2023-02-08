@@ -12,12 +12,12 @@ namespace AdmDentalOffice
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
 
-            ListPatient.AddPatient(new Patient("Wilson", 91242550844, System.DateTime.Parse("14/01/2002")));
-            ListPatient.AddPatient(new Patient("Matheus", 10712238956, System.DateTime.Parse("10/10/2000")));
-            ListPatient.AddPatient(new Patient("Roberto", 31220501883, System.DateTime.Parse("14/05/2001")));
+            ListPatient.InsertPatient(new Patient("Wilson", 91242550844, System.DateTime.Parse("14/01/2002")));
+            ListPatient.InsertPatient(new Patient("Matheus", 10712238956, System.DateTime.Parse("10/10/2000")));
+            ListPatient.InsertPatient(new Patient("Roberto", 31220501883, System.DateTime.Parse("14/05/2001")));
 
-            ListAppointment.AddAppointment(new Appointment(10712238956, "14/10/2023", "0800", "0900"));
-            ListAppointment.AddAppointment(new Appointment(31220501883, "14/10/2023", "1000", "1100"));
+            ListAppointment.InsertAppointment(new Appointment(10712238956, "14/10/2023", "0800", "0900"));
+            ListAppointment.InsertAppointment(new Appointment(31220501883, "14/10/2023", "1000", "1100"));
             
             Print.PrintStart();
         }

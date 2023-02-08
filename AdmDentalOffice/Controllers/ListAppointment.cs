@@ -9,7 +9,7 @@ namespace AdmDentalOffice.Controllers
     {
         private static List<Appointment> appointments = new List<Appointment>();
 
-        public static void AddAppointment(Appointment appointment)
+        public static void InsertAppointment(Appointment appointment)
         {
             if (FutureAppointment(appointment.Cpf))
             {

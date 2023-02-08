@@ -19,21 +19,22 @@ namespace AdmDentalOffice.LayoutControllers
 
                 option = int.Parse(Console.ReadLine());
 
-                switch (option)
+                if (option == 1)
                 {
-                    case 1:
-                        PrintRegisterPatient.Register();
-                        break;
-                    case 2:
-                        PrintAgenda.Agenda();
-                        break;
-                    case 3:
-                        Console.Clear();
-                        Console.WriteLine("Finalizando o Sistema!");
-                        break;
-                    default:
-                        Console.WriteLine("Opção informada inválida! Informe novamente!");
-                        break;
+                    PrintPatient.Register();
+                }
+                else if (option == 2)
+                {
+                    PrintAgenda.Agenda();
+                }
+                else if (option == 3)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Finalizando o Sistema!");
+                }
+                else
+                {
+                    Console.WriteLine("Opção informada inválida! Informe novamente!");
                 }
 
             } while (option != 3);
