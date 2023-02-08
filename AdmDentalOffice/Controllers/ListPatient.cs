@@ -20,6 +20,7 @@ namespace AdmDentalOffice.Controllers
             //patients.Add(patient);
             context.Patients.Add(patient);
             context.SaveChanges();
+
         }
 
         public static void RemovePatient(long cpf)
@@ -46,6 +47,7 @@ namespace AdmDentalOffice.Controllers
                         }
                     }
                 }
+
             }
             else
             {

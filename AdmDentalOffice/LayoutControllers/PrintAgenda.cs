@@ -25,25 +25,33 @@ namespace AdmDentalOffice.LayoutControllers
                     );
                 option = Console.ReadLine();
 
-                if (option == "1")
+
+                if (option.Equals('1'))
+
                 {
                     Console.Clear();
                     RegisterConsult();
                     Console.WriteLine();
                 }
-                else if (option == "2")
+
+                else if (option.Equals('2'))
+
                 {
                     Console.Clear();
                     DeleteConsult();
                     Console.WriteLine();
                 }
-                else if (option == "3")
+
+                else if (option.Equals('3'))
+
                 {
                     Console.Clear();
                     ListAgenda();
                     Console.WriteLine();
                 }
-                else if(option == "4")
+
+                else if(option.Equals('4'))
+
                 {
                     Console.Clear();
                     Print.PrintStart();
@@ -54,7 +62,9 @@ namespace AdmDentalOffice.LayoutControllers
                     Console.WriteLine("Opção informada inválida! Informe novamente!");
                 }
 
-            } while (option == "4");
+
+            } while (option.Equals('4'));
+
         }
 
         public static void RegisterConsult()
@@ -114,9 +124,11 @@ namespace AdmDentalOffice.LayoutControllers
                     var consultDate = Console.ReadLine();
 
                     Console.Write("Hora inicial: ");
+
                     var initialHour = Console.ReadLine();
 
                     Appointment appointment = ListAppointment.GetAppointment(cpf, consultDate, initialHour);
+
 
                     ListAppointment.RemoveAppointment(appointment);
                     

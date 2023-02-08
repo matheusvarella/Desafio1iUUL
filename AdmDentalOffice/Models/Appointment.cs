@@ -2,6 +2,7 @@
 {
     public class Appointment
     {
+
         public int Id { get; set; }
         public int PatientId { get; set; }
         public long Cpf { get; set; }
@@ -9,6 +10,7 @@
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public Patient Patient { get; set; }
+
 
         private Appointment() { }
 

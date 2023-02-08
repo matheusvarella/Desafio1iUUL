@@ -23,6 +23,7 @@ namespace AdmDentalOffice.Controllers
                 throw new Exception("Já existe consulta agendada nesse horário");
             }
 
+
             var patient = context.Patients.FirstOrDefault(x => x.Cpf == appointment.Cpf);
 
             appointment.PatientId = patient.Id;
@@ -31,15 +32,18 @@ namespace AdmDentalOffice.Controllers
             //appointments.Add(appointment);
             context.Add(appointment);
             context.SaveChanges();
+
         }
 
         public static void RemoveAppointment(Appointment appointment)
         {
             try 
             {
+
                 //appointments.Remove(appointment);
                 context.Remove(appointment);
                 context.SaveChanges();
+
             }
             catch (Exception ex)
             {
@@ -137,7 +141,9 @@ namespace AdmDentalOffice.Controllers
 
         public static Dictionary<Appointment, Patient> ListAllAppointments()
         {
+
             var listAppointments = context.Appointments.OrderBy(x => x.AppointmentDate).ToList();
+
 
             var response = new Dictionary<Appointment, Patient>();
 
@@ -153,8 +159,10 @@ namespace AdmDentalOffice.Controllers
 
         public static Dictionary<Appointment, Patient> ListAppointmentsByPeriod(string initialDate, string finalDate)
         {
+
             //appointments = appointments.OrderBy(x => x.AppointmentDate).ToList();
             var listAppointments = context.Appointments.OrderBy(x => x.AppointmentDate).ToList();
+
 
             var response = new Dictionary<Appointment, Patient>();
 
@@ -174,10 +182,12 @@ namespace AdmDentalOffice.Controllers
 
         public static Appointment GetAppointment(long cpf)
         {
+
             //var appointment = context.Appointments.FirstOrDefault(x => x.Cpf == cpf && DateTime.Parse(x.AppointmentDate) > DateTime.Now);
             var appointment = context
                 .Appointments
                 .FirstOrDefault(x => x.Cpf == cpf);
+
 
             return appointment;
         }
@@ -186,7 +196,9 @@ namespace AdmDentalOffice.Controllers
         {
             var appointment = context.Appointments.FirstOrDefault(
                 x => x.Cpf == cpf && 
+
                 x.AppointmentDate.Contains(consultDate) &&
+
                 x.StartTime == initialHour);
 
             return appointment;
